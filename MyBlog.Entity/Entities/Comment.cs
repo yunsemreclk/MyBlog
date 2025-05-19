@@ -9,7 +9,6 @@ namespace MyBlog.Entity.Entities
     public class Comment : BaseEntity
     {
         public string Content { get; set; }
-        public DateTime CommentedAt { get; set; } = DateTime.UtcNow;
         public int BlogPostId { get; set; }
         public BlogPost BlogPost { get; set; }
         public int UserId { get; set; }
