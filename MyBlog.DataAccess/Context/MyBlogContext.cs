@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyBlog.DataAccess.Context
 {
-    public class MyBlogContext : IdentityDbContext<AppUser>
+    public class MyBlogContext : DbContext
     {
         public MyBlogContext(DbContextOptions<MyBlogContext> options) : base(options)
         {
@@ -29,12 +29,12 @@ namespace MyBlog.DataAccess.Context
                 .HasForeignKey(bp => bp.CategoryId)  // BlogPost'taki CategoryId'nin, Category tablosundaki anahtara işaret ettiğini belirtiyoruz
                 .OnDelete(DeleteBehavior.Restrict);  // Kategori silindiğinde, ilişkili BlogPost'ların silinmemesi için
 
-            // BlogPost ve AppUser arasındaki ilişki (Her BlogPost'un bir yazarı olacak)
-            modelBuilder.Entity<BlogPost>()
-                .HasOne(bp => bp.AppUser)  // BlogPost'un bir AppUser'a (yazar) ait olduğunu belirtiyoruz
-                .WithMany(u => u.BlogPosts)  // Bir AppUser'ın birçok BlogPost'u olabileceğini belirtiyoruz
-                .HasForeignKey(bp => bp.UserId)  // BlogPost'taki UserId'nin, AppUser tablosundaki anahtara işaret ettiğini belirtiyoruz
-                .OnDelete(DeleteBehavior.SetNull);  // Kullanıcı silindiğinde, ilgili BlogPost'lar silinmesin, UserId null yapılsın
+            //// BlogPost ve AppUser arasındaki ilişki (Her BlogPost'un bir yazarı olacak)
+            //modelBuilder.Entity<BlogPost>()
+            //    .HasOne(bp => bp.AppUser)  // BlogPost'un bir AppUser'a (yazar) ait olduğunu belirtiyoruz
+            //    .WithMany(u => u.BlogPosts)  // Bir AppUser'ın birçok BlogPost'u olabileceğini belirtiyoruz
+            //    .HasForeignKey(bp => bp.UserId)  // BlogPost'taki UserId'nin, AppUser tablosundaki anahtara işaret ettiğini belirtiyoruz
+            //    .OnDelete(DeleteBehavior.SetNull);  // Kullanıcı silindiğinde, ilgili BlogPost'lar silinmesin, UserId null yapılsın
 
             // BlogPost ve Comment arasındaki ilişki (Her BlogPost'un birden fazla Comment'i olabilir)
             modelBuilder.Entity<Comment>()
@@ -43,12 +43,12 @@ namespace MyBlog.DataAccess.Context
                 .HasForeignKey(c => c.BlogPostId)  // Comment'teki BlogPostId'nin, BlogPost tablosundaki anahtara işaret ettiğini belirtiyoruz
                 .OnDelete(DeleteBehavior.Cascade);  // BlogPost silindiğinde, ilişkili Comment'ler de silinsin
 
-            // Comment ve AppUser arasındaki ilişki (Her Comment bir AppUser tarafından yapılır)
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.AppUser)  // Comment'in bir AppUser'a (kullanıcı) ait olduğunu belirtiyoruz
-                .WithMany(u => u.Comments)  // Bir AppUser'ın birçok Comment'i olabileceğini belirtiyoruz
-                .HasForeignKey(c => c.UserId)  // Comment'teki UserId'nin, AppUser tablosundaki anahtara işaret ettiğini belirtiyoruz
-                .OnDelete(DeleteBehavior.SetNull);  // AppUser silindiğinde, ilgili Comment'ler de silinsin
+            //// Comment ve AppUser arasındaki ilişki (Her Comment bir AppUser tarafından yapılır)
+            //modelBuilder.Entity<Comment>()
+            //    .HasOne(c => c.AppUser)  // Comment'in bir AppUser'a (kullanıcı) ait olduğunu belirtiyoruz
+            //    .WithMany(u => u.Comments)  // Bir AppUser'ın birçok Comment'i olabileceğini belirtiyoruz
+            //    .HasForeignKey(c => c.UserId)  // Comment'teki UserId'nin, AppUser tablosundaki anahtara işaret ettiğini belirtiyoruz
+            //    .OnDelete(DeleteBehavior.SetNull);  // AppUser silindiğinde, ilgili Comment'ler de silinsin
 
         }
     }    

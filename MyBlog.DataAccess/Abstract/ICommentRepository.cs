@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyBlog.DataAccess.Abstract
 {
-    public interface IBlogPostRepository : IGenericRepository<BlogPost>
+    public interface ICommentRepository : IGenericRepository<Comment>
     {
-        Task<BlogPost> GetBySlugAsync(string slug);
     }
 }

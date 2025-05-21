@@ -14,7 +14,7 @@ namespace MyBlog.DataAccess.Concrete
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly MyBlogContext _context;
+        protected readonly MyBlogContext _context;
 
         public GenericRepository(MyBlogContext context)
         {

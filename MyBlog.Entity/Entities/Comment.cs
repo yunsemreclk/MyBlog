@@ -12,7 +12,7 @@ namespace MyBlog.Entity.Entities
         public int BlogPostId { get; set; }
         public BlogPost BlogPost { get; set; }
         public int UserId { get; set; }
-        public AppUser AppUser { get; set; }
+        //public AppUser AppUser { get; set; }
 
         //Başkasının yorumunu yanıtlamak için kullanılıyor
         //public int? ParentCommentId { get; set; }

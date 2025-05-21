@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Business.Abstract
 {
-    public interface IGenericService
+    public interface IGenericService<T> where T : BaseEntity
     {
-        Task<IEnumerable<BlogPostDto>> GetAllAsync();
-        Task<BlogPostDto> GetPostByIdAsync(int id);
-        Task<BlogPostDto> GetPostBySlugAsync(string slug);
-        Task<BlogPostDto> CreateAsync(BlogPostCreateDto entity, string userId);
-        Task<BlogPostDto> UpdateAsync(int id, BlogPostUpdateDto entity);
-        Task<bool> DeleteAsync(int id);
-        Task<IEnumerable<BlogPostDto>> FindAsync(Expression<Func<BlogPostDto, bool>> predicate);
+        Task<IEnumerable<T>> TGetAllAsync();
+        Task<T> TGetPostByIdAsync(int id);
+        Task<BlogPost> GetBySlugAsync(string slug);
+        Task<T> TCreateAsync(T entity, string userId);
+        Task<T> TUpdateAsync(int id, T entity);
+        Task<bool> TDeleteAsync(int id);
+        Task<IEnumerable<T>> TFindAsync(Expression<Func<T, bool>> predicate);
     }
 }

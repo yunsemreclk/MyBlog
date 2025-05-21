@@ -1,4 +1,5 @@
-﻿using MyBlog.Business.Abstract;
+﻿using AutoMapper;
+using MyBlog.Business.Abstract;
 using MyBlog.DataAccess.Abstract;
 using MyBlog.DTO.DTOs.BlogPostDtos;
 using MyBlog.Entity.Entities;
@@ -11,37 +12,64 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Business.Concrete
 {
-    public class GenericService : IBlogPostService
+    public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
-        private readonly IBlogPostRepository _blogPostRepository;
-        public Task<BlogPostDto> CreateAsync(BlogPostCreateDto blogDto, string userId)
+        private readonly IBlogPostRepository _postRepository;
+        private readonly IGenericRepository<T> _repository;
+        private readonly IMapper _mapper;
+
+        public GenericService(IBlogPostRepository postRepository, IGenericRepository<T> repository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _postRepository = postRepository;
+            _mapper = mapper;
+        }
+        public Task<T> TCreateAsync(T entity, string userId)
+        {
+            return _repository.CreateAsync(entity);
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> TDeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<BlogPostDto>> GetAllAsync()
+        public async Task<IEnumerable<T>> TFindAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _repository.FindAsync(predicate);
         }
 
-        public Task<BlogPostDto> GetByIdAsync(int id)
+        public async Task<IEnumerable<T>> TGetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAllAsync();
         }
 
-        public Task<BlogPostDto> GetPostBySlugAsync(string slug)
+        public Task<T> TGetPostByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if(id <= 0)
+            {
+                throw new ArgumentException("Invalid ID", nameof(id));
+            }
+             return _repository.GetByIdAsync(id);
         }
 
-        public Task<BlogPostDto> UpdateAsync(int id, BlogPostUpdateDto blogDto)
+        public async Task<BlogPost> GetBySlugAsync(string slug)
         {
-            throw new NotImplementedException();
+           return await _postRepository.GetBySlugAsync(slug);
+            
         }
+
+        public async Task<T> TUpdateAsync(int id, T entity)
+        {
+            return await _repository.UpdateAsync(entity);
+        }
+
+        private string GenerateSlug(string title)
+        {
+            // Slug oluşturma işlemi
+            string slug = title.ToLower().Replace(" ", "-").Replace("'", "").Replace("&", "ve");
+            return slug;
+        }
+
     }
 }
