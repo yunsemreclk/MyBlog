@@ -14,16 +14,14 @@ namespace MyBlog.Business.Concrete
 {
     public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
-        private readonly IBlogPostRepository _postRepository;
-        private readonly IGenericRepository<T> _repository;
-        private readonly IMapper _mapper;
+        
+        internal readonly IGenericRepository<T> _repository;
 
-        public GenericService(IBlogPostRepository postRepository, IGenericRepository<T> repository, IMapper mapper)
+        public GenericService( IGenericRepository<T> repository)
         {
             _repository = repository;
-            _postRepository = postRepository;
-            _mapper = mapper;
         }
+
         public Task<T> TCreateAsync(T entity, string userId)
         {
             return _repository.CreateAsync(entity);
@@ -51,12 +49,6 @@ namespace MyBlog.Business.Concrete
                 throw new ArgumentException("Invalid ID", nameof(id));
             }
              return _repository.GetByIdAsync(id);
-        }
-
-        public async Task<BlogPost> GetBySlugAsync(string slug)
-        {
-           return await _postRepository.GetBySlugAsync(slug);
-            
         }
 
         public async Task<T> TUpdateAsync(int id, T entity)

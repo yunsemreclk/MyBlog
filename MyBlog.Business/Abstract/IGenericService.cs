@@ -13,7 +13,6 @@ namespace MyBlog.Business.Abstract
     {
         Task<IEnumerable<T>> TGetAllAsync();
         Task<T> TGetPostByIdAsync(int id);
-        Task<BlogPost> GetBySlugAsync(string slug);
         Task<T> TCreateAsync(T entity, string userId);
         Task<T> TUpdateAsync(int id, T entity);
         Task<bool> TDeleteAsync(int id);
